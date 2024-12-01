@@ -24,7 +24,9 @@ def build(ctx):
         f"--macos-target-arch={arch}",
         f"--output-dir={arch}",
     ]
-    subprocess.run(build_command)
+    result = subprocess.run(build_command)
+    if result.returncode != 0:
+        raise Exception("Build failed")
 
 @cli.command()
 @click.pass_context
