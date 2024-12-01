@@ -29,6 +29,11 @@ jobs:
           pdm install
           pdm run nuitka --version
 
+      - name: Test
+        shell: bash
+        run: |
+          pdm run dev
+
       - name: Setup Environment Variables
         shell: bash
         run: |
