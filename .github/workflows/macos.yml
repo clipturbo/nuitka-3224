@@ -34,6 +34,7 @@ jobs:
         run: |
           pdm run dev
           ls -al /opt/homebrew/opt/cairo
+          ls -al /opt/homebrew/opt/cairo/lib
 
       - name: Setup Environment Variables
         shell: bash
