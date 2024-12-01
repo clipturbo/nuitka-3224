@@ -1,3 +1,4 @@
+import os
 import subprocess
 import click
 import shutil
@@ -17,6 +18,8 @@ def build(ctx):
     build_command = [
         "pdm", "run", "nuitka", "nuitka_3224.py",
         "--standalone",
+        "--assume-yes-for-downloads",
+        "--report=compilation-report.xml",
         "--macos-create-app-bundle",
         f"--macos-target-arch={arch}",
         f"--output-dir={arch}",
@@ -39,6 +42,7 @@ def dmg(ctx):
         f"{arch}/nuitka_3224.app",
     ]
     subprocess.run(create_dmg_command)
+    os.makedirs("dist", exist_ok=True)
     shutil.copy(f"nuitka_3224-{arch}.dmg", f"dist/nuitka_3224-{arch}.dmg")
 
 if __name__ == '__main__':

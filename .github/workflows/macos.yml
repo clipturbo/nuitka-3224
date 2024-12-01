@@ -65,4 +65,5 @@ jobs:
           name: ${{ runner.os }}
           path: |
             dist/*.dmg
+            compilation-report.xml
           retention-days: 1
