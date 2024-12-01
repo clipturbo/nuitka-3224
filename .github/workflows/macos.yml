@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pdm install && pdm run setup
+          pdm install
           pdm run nuitka --version
 
       - name: Setup Environment Variables
