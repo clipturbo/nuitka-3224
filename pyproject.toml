@@ -1,0 +1,26 @@
+[project]
+name = "nuitka-3224"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "kejun", email = "kejun1997@gmail.com"},
+]
+dependencies = [
+    "pycairo>=1.27.0",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "nuitka>=2.5.4",
+    "click>=8.1.7",
+]
+
+[tool.pdm.scripts]
+cli = "pdm run cli.py"
+dev = "pdm run nuitka_3224.py"

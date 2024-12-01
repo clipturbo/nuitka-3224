@@ -1,0 +1,68 @@
+name: MacOS Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v4
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          cache: true
+          python-version: 3.12
+
+      - name: Setup Dependencies
+        shell: bash
+        run: |
+          file $(which python3)
+          brew install py3cairo create-dmg
+          brew link --force tcl-tk@8
+
+      - name: Install Dependencies
+        run: |
+          pdm install && pdm run setup
+          pdm run nuitka --version
+
+      - name: Setup Environment Variables
+        shell: bash
+        run: |
+          echo "NUITKA_CACHE_DIR=$GITHUB_WORKSPACE/nuitka/cache" >> $GITHUB_ENV
+          echo "PYTHON_VERSION=$(python --version | awk '{print $2}' | cut -d '.' -f 1,2)" >> $GITHUB_ENV
+
+      - name: Cache Nuitka Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.NUITKA_CACHE_DIR }}
+          key: ${{ runner.os }}-${{ runner.arch }}-python-${{ env.PYTHON_VERSION }}-nuitka-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-python-${{ env.PYTHON_VERSION }}-
+            ${{ runner.os }}-${{ runner.arch }}-python-
+            ${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Build x86 With Nuitka
+        shell: bash
+        run: |
+          set -e
+          pdm cli --arch x86_64 build
+          pdm cli --arch x86_64 dmg
+
+      - name: Build arm With Nuitka
+        shell: bash
+        run: |
+          set -e
+          pdm cli --arch arm64 build
+          pdm cli --arch arm64 dmg
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}
+          path: |
+            dist/*.dmg
+          retention-days: 1
