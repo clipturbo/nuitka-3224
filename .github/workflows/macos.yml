@@ -38,18 +38,15 @@ jobs:
           brew install create-dmg
 
       - name: Install Dependencies
-        shell: bash
         run: |
           pdm install
 
       - name: Test
-        shell: bash
         run: |
           pdm run nuitka --version
           pdm run dev
 
       - name: Setup Environment Variables
-        shell: bash
         run: |
           echo "NUITKA_CACHE_DIR=$GITHUB_WORKSPACE/nuitka/cache" >> $GITHUB_ENV
           echo "PYTHON_VERSION=$(python --version | awk '{print $2}' | cut -d '.' -f 1,2)" >> $GITHUB_ENV
@@ -65,7 +62,6 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-
 
       - name: Build x86 With Nuitka
-        shell: bash
         if: matrix.os == 'macos-13'
         run: |
           set -e
@@ -73,7 +69,6 @@ jobs:
           pdm cli --arch x86_64 dmg
 
       - name: Build arm With Nuitka
-        shell: bash
         if: matrix.os == 'macos-latest'
         run: |
           set -e
