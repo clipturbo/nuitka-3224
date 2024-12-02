@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: macos-latest
 
     steps:
       - name: Checkout Git Repository
@@ -21,11 +21,13 @@ jobs:
         shell: bash
         run: |
           file $(which python3)
-          brew install cairo create-dmg
+          brew install create-dmg python@3.11 python-tk@3.11
           brew link --force tcl-tk@8
 
       - name: Install Dependencies
         run: |
+          pdm venv create 3.11
+          pdm venv activate
           pdm install
           pdm run nuitka --version
 
@@ -33,9 +35,7 @@ jobs:
         shell: bash
         run: |
           pdm run dev
-          # ls -al /opt/homebrew/opt/cairo
-          # ls -al /opt/homebrew/opt/cairo/lib
-          # find /opt/homebrew/opt/cairo/lib -type f -exec file {} \;
+          brew info cairo
 
       - name: Setup Environment Variables
         shell: bash
@@ -53,12 +53,12 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-python-
             ${{ runner.os }}-${{ runner.arch }}-
 
-      - name: Build x86 With Nuitka
-        shell: bash
-        run: |
-          set -e
-          pdm cli --arch x86_64 build
-          pdm cli --arch x86_64 dmg
+      # - name: Build x86 With Nuitka
+      #   shell: bash
+      #   run: |
+      #     set -e
+      #     pdm cli --arch x86_64 build
+      #     pdm cli --arch x86_64 dmg
 
       - name: Build arm With Nuitka
         shell: bash
