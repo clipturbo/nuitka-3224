@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pdm venv create 3.11
+          pdm venv create 3.11 --force
           pdm venv activate
           pdm install
           pdm run nuitka --version
