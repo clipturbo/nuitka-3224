@@ -5,7 +5,11 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [macos-latest, macos-13]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout Git Repository
@@ -53,15 +57,17 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-python-
             ${{ runner.os }}-${{ runner.arch }}-
 
-      # - name: Build x86 With Nuitka
-      #   shell: bash
-      #   run: |
-      #     set -e
-      #     pdm cli --arch x86_64 build
-      #     pdm cli --arch x86_64 dmg
+      - name: Build x86 With Nuitka
+        shell: bash
+        if: matrix.os == 'macos-13'
+        run: |
+          set -e
+          pdm cli --arch x86_64 build
+          pdm cli --arch x86_64 dmg
 
       - name: Build arm With Nuitka
         shell: bash
+        if: matrix.os == 'macos-latest'
         run: |
           set -e
           pdm cli --arch arm64 build
