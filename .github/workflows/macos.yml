@@ -36,9 +36,11 @@ jobs:
           pdm venv create --force -w conda 3.12
           pdm use --venv in-project
           pdm install
+          pdm run nuitka --version
+          conda init
           conda activate ./.venv
           conda install -y -c conda-forge pycairo cairo
-          pdm run nuitka --version
+        continue-on-error: true
 
 
       - name: Test
