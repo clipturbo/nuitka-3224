@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run: |
           file $(which python3)
-          brew install py3cairo create-dmg
+          brew install cairo create-dmg
           brew link --force tcl-tk@8
 
       - name: Install Dependencies
@@ -33,9 +33,9 @@ jobs:
         shell: bash
         run: |
           pdm run dev
-          ls -al /opt/homebrew/opt/cairo
-          ls -al /opt/homebrew/opt/cairo/lib
-          find /opt/homebrew/opt/cairo/lib -type f -exec file {} \;
+          # ls -al /opt/homebrew/opt/cairo
+          # ls -al /opt/homebrew/opt/cairo/lib
+          # find /opt/homebrew/opt/cairo/lib -type f -exec file {} \;
 
       - name: Setup Environment Variables
         shell: bash
