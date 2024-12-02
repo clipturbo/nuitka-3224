@@ -11,6 +11,10 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        shell: bash -el {0}
+
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v4
@@ -27,16 +31,15 @@ jobs:
           python-version: 3.12
 
       - name: Setup Dependencies
-        shell: bash
         run: |
           conda activate ./.venv
+          conda info
           conda install -y -c conda-forge pycairo cairo
           brew install create-dmg
 
       - name: Install Dependencies
         shell: bash
         run: |
-          conda info
           pdm install
 
       - name: Test
