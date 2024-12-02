@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, macos-13]
+        os: [macos-13]
 
     runs-on: ${{ matrix.os }}
 
@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           file $(which python3)
-          brew install create-dmg python@3.11 python-tk@3.11
+          brew install --force create-dmg python@3.11 python-tk@3.11
           brew link --force tcl-tk@8
 
       - name: Install Dependencies
