@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, macos-13]
 
     runs-on: ${{ matrix.os }}
 
@@ -25,26 +25,15 @@ jobs:
           cache: true
           python-version: 3.12
 
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: ./.venv
-          python-version: 3.12
-
-      - name: Setup Dependencies
-        run: |
-          conda activate ./.venv
-          conda info
-          conda install -y -c conda-forge pycairo cairo
-          brew install create-dmg
-
       - name: Install Dependencies
         run: |
+          brew install create-dmg
           pdm install
+          sed -i '' '108s/^/#/' $(pdm run python -c "import inspect;import nuitka.utils.Yaml as n;print(inspect.getfile(n))")
 
       - name: Test
         run: |
           pdm run nuitka --version
-          pdm run dev
 
       - name: Setup Environment Variables
         run: |

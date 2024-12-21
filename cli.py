@@ -21,6 +21,8 @@ def build(ctx):
         "--assume-yes-for-downloads",
         "--report=compilation-report.xml",
         "--macos-create-app-bundle",
+        "--enable-plugin=tk-inter",
+        "--user-package-configuration-file=./nuitka-cairo.yml",
         f"--macos-target-arch={arch}",
         f"--output-dir={arch}",
     ]

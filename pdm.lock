@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:4dc740210d388ec1c467edfb0c0f541fee9a3760b1fe8c30a7e5775dd1ae8aa3"
+content_hash = "sha256:c278a3797fdecc0c9503608acb7343b9dca14fce0717ff283cba4dacda84f1cc"
 
 [[metadata.targets]]
 requires_python = ">=3.10,<3.13"
@@ -88,7 +88,7 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.5.4"
+version = "2.5.7"
 summary = "Python compiler with full language support and CPython compatibility"
 groups = ["dev"]
 dependencies = [
@@ -96,7 +96,7 @@ dependencies = [
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.5.4.tar.gz", hash = "sha256:52f3ec8df460d567362d3adf9e722534e07f4cc7bf51c2da874c86ba4103c6c1"},
+    {file = "Nuitka-2.5.7.tar.gz", hash = "sha256:b4eb9ee138c07484f67a254eed3f1f2178dc9845c58f2fa1218296b3608b99d1"},
 ]
 
 [[package]]
